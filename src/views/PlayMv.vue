@@ -49,6 +49,9 @@ export default {
       this.getrelatedVideD(this.$route.query.id)
     }
   },
+  activated(){
+    console.log("video")
+  },
   methods: {
     getmv(id) {
       getMvUrl("/mv/url", { id }).then((res) => {

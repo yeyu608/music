@@ -1,8 +1,12 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive"></router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
   </div>
 </template>
+
 <script>
 // 根组件
 
@@ -13,11 +17,19 @@ export default {
       console.log(mc)
     })
   }, */
+  data(){
+    return{
+     
+    }
+  },
+  methods: {},
+  watch: {
+  },
 };
 </script>
 
 <style scoped  lang="less">
-#app{
-  height:100%;
+#app {
+  height: 100%;
 }
 </style>

@@ -38,11 +38,27 @@ import RecommenMusic from "./RecommenMusic.vue";
 import OfficialongList from "./OfficialongList.vue";
 import ListItem from "./ListItem.vue";
 export default {
+  data(){
+    return{
+      ztId:''
+    }
+  },
   components: {
     RecommenMusic,
     HotList,
     OfficialongList,
     ListItem,
+  },
+  beforeRouteLeave(to,from,next){
+    console.log(this.ztId)
+    // if (this.ztId !== this.$route.query.id) {
+    //   this.$route.meta.keepAlive = false;
+    //   console.log("dddd");
+    // }
+    // this.ztId = this.$route.query.id;
+    // console.log(this.ztId);
+    // this.$route.meta.keepAlive = true;
+    next()
   },
   methods: {
     search(){

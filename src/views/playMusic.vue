@@ -60,19 +60,41 @@ export default {
       musicdata: "",
       playMis: false,
       songUrl: "",
+      scrollLength: 0,
       // 歌词
       LyricAlist: [],
       idx: 0,
       activeIndex: 0,
+      ztId:''
     };
   },
+
   components: {
     Popup,
   },
+
   created() {
     this.getlyric(this.$route.query.id);
     this.getmusicdata(this.$route.query.id);
     this.getsongurl(this.$route.query.id);
+  },
+  beforeRouteLeave(to,from,next){
+    console.log(this.ztId)
+    if (this.ztId !== this.$route.query.id) {
+      this.$route.meta.keepAlive = false;
+      console.log("dddd");
+    }
+    this.ztId = this.$route.query.id;
+    console.log(this.ztId);
+    this.$route.meta.keepAlive = true;
+    next()
+  },
+  activated() {
+    if (this.$refs.lyricStyles) {
+      this.playMis = !this.playMis;
+      this.$refs.lyricStyles.scrollTop = this.scrollLength;
+      this.playmis();
+    }
   },
   methods: {
     upStep(num) {
@@ -98,7 +120,7 @@ export default {
         });
       }
       this.LyricAlist = arryData; // 处理好的歌词数据
-      console.log(arryData);
+      //console.log(arryData);
     },
     // 处理时间格式
     timeFormat(data) {
@@ -126,7 +148,6 @@ export default {
     // 音乐播放
     playmis() {
       this.playMis = !this.playMis;
-      console.log(this.$refs.audios);
       if (this.playMis) {
         this.$refs.audios.play();
         // 实时监听信誉播放的进度
@@ -135,6 +156,11 @@ export default {
           //console.log(this.$refs.audios.currentTime);
           // 处理动态样式 和 自动滚动
           this.changStyleSc(this.$refs.audios.currentTime);
+        });
+        this.$refs.audios.addEventListener("ended", () => {
+          this.playMis = !this.playMis;
+          this.autoscroll(ture);
+          console.log("ccccc");
         });
       } else {
         this.$refs.audios.pause();
@@ -145,7 +171,7 @@ export default {
       let item = this.LyricAlist[this.idx];
       // 获取到第一项歌词播放的时间
       // 获取当前的时间
-      console.log(item.time, time);
+      //console.log(item.time, time);
       if (time > item.time) {
         this.idx++;
         this.activeIndex = this.idx - 1;
@@ -155,11 +181,16 @@ export default {
       // 实现自动滚动歌词
       this.autoscroll();
     },
-    autoscroll() {
+    autoscroll(clear) {
       // 让div元素滚动到指定位置
-      this.$refs.lyricStyles.scrollTop += 32;
+      this.scrollLength += 32;
+      this.$refs.lyricStyles.scrollTop = this.scrollLength;
+      if (clear) {
+        this.$refs.lyricStyles.scrollTop = 0;
+      }
     },
   },
+  watch: {},
 };
 </script>
 

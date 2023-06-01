@@ -13,32 +13,50 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta:{
+      keepAlive: false
+    }
   },
   {
     path: '/palyMv',
     name: 'PalyMv',
-    component: () => import('../views/PlayMv.vue')
+    component: () => import('../views/PlayMv.vue'),
+    meta:{
+      keepAlive: true
+    }
   },
   {
     path: "/Search",
     name: 'Search',
-    component: () => import('../views/Search.vue')
+    component: () => import('../views/Search.vue'),
+    meta:{
+      keepAlive: false
+    }
   },
   {
     path: "/playMusic",
     name: 'playMusic',
-    component: () => import('../views/playMusic.vue')
+    component: () => import('../views/playMusic.vue'),
+    meta:{
+      keepAlive: true
+    }
   },
   {
     path: "/store",
     name: 'store',
-    component: () => import('../views/store1.vue')
+    component: () => import('../views/store1.vue'),
+    meta:{
+      keepAlive: false
+    }
   },
   {
     path: "/index",
     name: 'index',
-    component: () => import('../views/index.vue')
+    component: () => import('../views/index.vue'),
+    meta:{
+      keepAlive: false
+    }
   }
 ]
 
