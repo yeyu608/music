@@ -60,7 +60,7 @@ export default {
 <style scoped lang='less'>
 .home {
   padding: 0 80px;
-  height: 12000px;
+  padding-bottom: 220px;
   h3 {
     text-align: center;
   }

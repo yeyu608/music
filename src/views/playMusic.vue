@@ -16,11 +16,13 @@
       <p>{{ musicdata.ar[0].name }}</p>
     </div>
     <div class="content">
-      <img :src="musicdata.al.picUrl" />
-      <div class="playbtn" @click="playmis()">
-        <div class="suspend iconfont icon-zanting" v-show="playMis"></div>
-        <div class="play iconfont icon-bofang" v-show="!playMis"></div>
-        <audio :src="songUrl" ref="audios"></audio>
+      <div class="playpup">
+        <img :src="musicdata.al.picUrl" />
+        <div class="playbtn" @click="playmis()">
+          <div class="suspend iconfont icon-zanting" v-show="playMis"></div>
+          <div class="play iconfont icon-bofang" v-show="!playMis"></div>
+          <audio :src="songUrl" ref="audios"></audio>
+        </div>
       </div>
       <!-- 歌词 -->
       <div class="lyricStyle" ref="lyricStyles">
@@ -46,18 +48,17 @@
         <span>搜索</span>
       </div>
     </div>
-    <Popup></Popup>
   </div>
 </template>
 
 <script>
-import Popup from "../components/Popup.vue"
+import Popup from "../components/Popup.vue";
 import { Getlyric, Getlmusicdata, GetSongUrl } from "@/http/api/playmusic";
 export default {
   data() {
     return {
       musicdata: "",
-      playMis: true,
+      playMis: false,
       songUrl: "",
       // 歌词
       LyricAlist: [],
@@ -107,7 +108,6 @@ export default {
       if (m !== "00") {
         // 分钟不等于00
         s += m * 60;
-        console.log(s);
       }
       return Number(s);
     },
@@ -126,6 +126,7 @@ export default {
     // 音乐播放
     playmis() {
       this.playMis = !this.playMis;
+      console.log(this.$refs.audios);
       if (this.playMis) {
         this.$refs.audios.play();
         // 实时监听信誉播放的进度
@@ -156,7 +157,7 @@ export default {
     },
     autoscroll() {
       // 让div元素滚动到指定位置
-      this.$refs.lyricStyles.scrollTop += 25;
+      this.$refs.lyricStyles.scrollTop += 32;
     },
   },
 };
@@ -199,39 +200,47 @@ export default {
   }
   .content {
     margin: 120px auto 0;
-    width: 1000px;
-    height: 1000px;
+    width: 100vw;
     position: relative;
     z-index: 100;
-    img {
-      width: 100%;
-      height: 100%;
-      border-radius: 100px;
-    }
-    .playbtn {
+    .playpup {
+      margin: 120px auto 0;
+      width: 1000px;
+      height: 1000px;
+      position: relative;
       z-index: 100;
-      width: 200px;
-      height: 200px;
-      background: #fff;
-      border-radius: 200px;
-      position: absolute;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      .suspend,
-      .play {
-        font-size: 80px;
-        color: #000;
+      img {
+        width: 1000px;
+        height: 1000px;
+        border-radius: 100px;
+      }
+      .playbtn {
+        z-index: 100;
+        width: 200px;
+        height: 200px;
+        background: #fff;
+        border-radius: 200px;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        .suspend,
+        .play {
+          font-size: 80px;
+          color: #000;
+        }
       }
     }
     // 歌词
     .lyricStyle {
       overflow-y: scroll;
-      height: 500px;
-      margin-top:80px;
+      height: 800px;
+      padding-top: 300px;
+      margin-top: 80px;
+      font-size: 72px;
       .lyricItem {
         text-align: center;
         color: #fff;

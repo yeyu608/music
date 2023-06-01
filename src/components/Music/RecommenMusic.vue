@@ -29,6 +29,7 @@ export default {
         RecommendMusic("/personalized/newsong", { limit: 6 }).then((res) => {
           if (res.data.code == 200) {
             this.recommenMusic = res.data.result;
+            console.log(res)
             sessionStorage.setItem(
               "recommenMusic",
               JSON.stringify(res.data.result)
